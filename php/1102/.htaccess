@@ -1,0 +1,11 @@
+ErrorDocument 404 /404.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule ^index.html$ index.php
+RewriteRule ^list-([0-9]+)-([0-9]+)\.html$ list.php?cid=$1&page=$2
+RewriteRule ^search\.html$ search.php
+RewriteRule ^content-([0-9]+)-([0-9]+)-([0-9]+)\.html$ content.php?cid=$1&id=$2&page=$3
+RewriteRule ^(\w+)\.html$ $1.php?
+
+</IfModule>

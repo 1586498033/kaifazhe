@@ -1,0 +1,7 @@
+INSERT INTO `sh_infoflag` VALUES('1','n','最新','1');
+INSERT INTO `sh_infoflag` VALUES('2','h','头条','2');
+INSERT INTO `sh_infoflag` VALUES('3','c','推荐','3');
+INSERT INTO `sh_infoflag` VALUES('4','a','猜你感兴趣','4');
+INSERT INTO `sh_infoflag` VALUES('5','s','滚动','5');
+INSERT INTO `sh_infoflag` VALUES('6','j','跳转','6');
+INSERT INTO `sh_infoflag` VALUES('7','7','图片','7');

@@ -1,0 +1,2 @@
+INSERT INTO `sh_adtype` VALUES('1','1','0','0,','幻灯片','789','324','1','true');
+INSERT INTO `sh_adtype` VALUES('29','3','0','0,','banner','0','0','2','true');

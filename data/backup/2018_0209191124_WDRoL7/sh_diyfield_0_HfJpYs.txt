@@ -1,0 +1,3 @@
+INSERT INTO `sh_diyfield` VALUES('340','1','239,264','address','地址','','varchar','100','','','','1','true');
+INSERT INTO `sh_diyfield` VALUES('341','1','239,264','longitude','经度','','varchar','10','','','','2','true');
+INSERT INTO `sh_diyfield` VALUES('342','1','239,264','latitude','纬度','','varchar','10','','','','3','true');

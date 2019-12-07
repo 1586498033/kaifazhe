@@ -1,0 +1,3 @@
+INSERT INTO `sh_infosrc` VALUES('1','朴讯软件（上海）有限公司','proclouds.cn','1');
+INSERT INTO `sh_infosrc` VALUES('2','普允（上海）网络科技发展有限公司','proclouds.cn','2');
+INSERT INTO `sh_infosrc` VALUES('3','ProCloud','procloud.cn','3');

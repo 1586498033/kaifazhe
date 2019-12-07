@@ -1,0 +1,2 @@
+INSERT INTO `sh_weblinktype` VALUES('3','1','0','0,','友情链接','3','true');
+INSERT INTO `sh_weblinktype` VALUES('4','3','0','0,','Links','4','true');
