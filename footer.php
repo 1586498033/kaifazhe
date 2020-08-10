@@ -35,7 +35,7 @@
 					<h3 class="tit">公共媒体</h3>
 					<ul>
 						<li><a href="https://weibo.com/u/3046296615" target="_blank"><i class="iconfont icon-xinlang"></i>关注新浪微博</a></li>
-						<li><a href="javascript:;"><i class="iconfont icon-weixin"></i>关注微信公众号</a><img src="images/linlutong.jpg" alt="朴讯软件"></li>
+						<li><a href="javascript:;"><i class="iconfont icon-weixin"></i>关注微信公众号</a><img src="images/linlutong.jpg" alt="的卢科技"></li>
 						<li><a href="tencent://message/?uin=1586498033&Site=www.kaifazhe.site&Menu=yes" target="_blank"><i class="iconfont icon-icon363601"></i>加为QQ好友</a></li>
 						<li><a href="tel:19156292659"><i class="iconfont icon-lianxi-copy"></i>欢迎联系我们</a></li>
 					</ul>
