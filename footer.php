@@ -36,15 +36,15 @@
 					<ul>
 						<li><a href="https://weibo.com/u/3046296615" target="_blank"><i class="iconfont icon-xinlang"></i>关注新浪微博</a></li>
 						<li><a href="javascript:;"><i class="iconfont icon-weixin"></i>关注微信公众号</a><img src="images/linlutong.jpg" alt="朴讯软件"></li>
-						<li><a href="tencent://message/?uin=2271010218&Site=www.kaifazhe.site&Menu=yes" target="_blank"><i class="iconfont icon-icon363601"></i>加为腾讯QQ好友</a></li>
-						<li><a href="tel:15827236292"><i class="iconfont icon-lianxi-copy"></i>欢迎联系我们</a></li>
+						<li><a href="tencent://message/?uin=1586498033&Site=www.kaifazhe.site&Menu=yes" target="_blank"><i class="iconfont icon-icon363601"></i>加为QQ好友</a></li>
+						<li><a href="tel:19156292659"><i class="iconfont icon-lianxi-copy"></i>欢迎联系我们</a></li>
 					</ul>
-					<img src="images/logo2.png" alt="武汉app开发" title="武汉app开发" />
+					<img src="images/logo2.png" alt="上海app开发" title="上海app开发" />
 				</div>
 				<div class="con con2">
 					<h3 class="tit">技术支持</h3>
 					<p>如果您有项目上的疑问，可以随时咨询我们。</p>
-					<p>客服热线：<?php echo $cfg_hotline;?><br />技术支持：<a href="tel:15827236292"><b>林先生</b></a><br /><?php echo $cfg_copyright;?><br/><?php echo $cfg_icp;?></p>
+					<p>客服热线：<?php echo $cfg_hotline;?><br />技术支持：<a href="tel:19156292659"><b>林先生</b></a><br /><?php echo $cfg_copyright;?><br/><?php echo $cfg_icp;?></p>
 					<div class="email">
 						<input type="text" name="email" id="email" placeholder="输入您的邮件地址" />
 						<input type="button" class="btn" id="emailGo" value="GO">
