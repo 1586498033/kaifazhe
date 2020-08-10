@@ -1,6 +1,10 @@
 <?php
+error_reporting(E_ALL);
 require_once(dirname(__FILE__).'/include/config.inc.php'); 
 $nid = 0;
+
+$redis = RedisPackage::getInstance();
+
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -28,15 +32,32 @@ $nid = 0;
 	<?php include 'header.php';?>
     <div id="banner">
     	<?php
-		$dosql->Execute("SELECT title,picurl,linkurl FROM `#@__admanage` WHERE classid=1 AND checkinfo=true ORDER BY orderid ASC");
-		while($row = $dosql->GetArray())
-		{
-			$linkurl = !empty($row['linkurl'])? $row['linkurl']:'javascript:;';
-		?>
-		<div class="item">
-    		<a href="<?php echo $linkurl;?>"><img src="<?php echo $row['picurl'];?>" alt="<?php echo $row['title'];?>" title="<?php echo $row['title'];?>" /></a>
-    	</div>
-		<?php } ?>
+        $redisBanner = $redis::get('banner');
+        if(empty($redisBanner)){
+            $dosql->Execute("SELECT title,picurl,linkurl FROM `#@__admanage` WHERE classid=1 AND checkinfo=true ORDER BY orderid ASC");
+            $i = 0;
+            while($row = $dosql->GetArray())
+            {
+                $linkurl = !empty($row['linkurl'])? $row['linkurl']:'javascript:;';
+                echo '<div class="item">
+                    <a href="' .$linkurl. '"><img src="' .$row['picurl']. '" alt="' .$row['title']. '" title="' .$row['title']. '" /></a>
+                </div>';
+                $rows[$i]['title'] = $row['title'];
+                $rows[$i]['picurl'] = $row['picurl'];
+                $rows[$i]['linkurl'] = $linkurl;
+                $i++;
+            }
+            $redisBanner = json_encode($rows);
+            $redis::set('banner',$redisBanner);
+        } else{
+            $redisBanner = json_decode($redisBanner,true);
+            foreach ($redisBanner as $item) {
+                echo '<div class="item">
+                    <a href="' .$item['linkurl']. '"><img src="' .$item['picurl']. '" alt="' .$item['title']. '" title="' .$item['title']. '" /></a>
+                </div>';
+            }
+        }
+        ?>
     </div>
 	<div class="g-box">
 		<div class="wp ovh">
@@ -220,29 +241,55 @@ $nid = 0;
     	<div class="wp">
 	    	<h3 class="g-tit1">行业成功案例</h3>
 	    	<div class="m-tab1">
-	    		<a href="list-232-1.html" class="on">全部</a>
+	    		<a href="list-232-1.html" class="on">最新</a>
 	    		<a href="list-233-1.html">网站建设</a>
 	    		<a href="list-234-1.html">手机端开发</a>
 				<a href="list-346-1.html">小程序</a>
 	    	</div>
 	    	<ul class="list ul-list4">
 				<?php
-				$dosql->Execute("SELECT * FROM `#@__infoimg` WHERE parentid=232 AND siteid = 1 AND find_in_set('c',flag) AND checkinfo=true AND delstate='' ORDER BY posttime DESC,orderid DESC limit 0,9");
-				$i = 1;
-				while($lists = $dosql->GetArray())
-				{
-					echo '
-						<li class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="'.($i*0.15).'s">
-							<div class="pic">
-								<a '.gourl($lists['linkurl'],'detail',$lists['classid'],$lists['id']).' target="_blank"><img class="lazyimg" data-original="'.$lists['case_img'].'" alt="武汉网页设计" title="武汉网页设计"></a>
-							</div>
-							<div class="txt">
-								<h3><a '.gourl($lists['linkurl'],'detail',$lists['classid'],$lists['id']).' target="_blank">'.$lists['title'].'</a></h3>
-								<p>'.$lists['stitle'].'</p>
-							</div>
-						</li>';
-					$i++;
-				}
+                $redisCase = $redis::get('case_rec');
+                if(empty($redisCase)){
+                    $dosql->Execute("SELECT id,classid,case_img,linkurl,title,stitle FROM `#@__infoimg` WHERE parentid=232 AND siteid = 1 AND find_in_set('c',flag) AND checkinfo=true AND delstate='' ORDER BY posttime DESC,orderid DESC limit 0,9");
+                    $i = 1;
+                    $j = 0;
+                    while($row = $dosql->GetArray()) {
+                        echo '<li class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="' . ($i * 0.15) . 's">
+                                <div class="pic">
+                                    <a ' . gourl($row['linkurl'], 'detail', $row['classid'], $row['id']) . ' target="_blank"><img class="lazyimg" data-original="' . $row['case_img'] . '" alt="' . $row['title'] . '" title="' . $row['title'] . '"></a>
+                                </div>
+                                <div class="txt">
+                                    <h3><a ' . gourl($row['linkurl'], 'detail', $row['classid'], $row['id']) . ' target="_blank">' . $row['title'] . '</a></h3>
+                                    <p>' . $row['stitle'] . '</p>
+                                </div>
+                            </li>';
+                        $rows[$j]['id'] = $row['id'];
+                        $rows[$j]['classid'] = $row['classid'];
+                        $rows[$j]['case_img'] = $row['case_img'];
+                        $rows[$j]['linkurl'] = $row['linkurl'];
+                        $rows[$j]['title'] = $row['title'];
+                        $rows[$j]['stitle'] = $row['stitle'];
+                        $i++;
+                        $j++;
+                    }
+                    $redisCase = json_encode($rows);
+                    $redis::set('case_rec',$redisCase);
+                } else{
+                    $redisCase = json_decode($redisCase, true);
+                    $i = 1;
+                    foreach ($redisCase as $item){
+                        echo '<li class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="'.($i*0.15).'s">
+                                <div class="pic">
+                                    <a '.gourl($item['linkurl'],'detail',$item['classid'],$item['id']).' target="_blank"><img class="lazyimg" data-original="'.$item['case_img'].'" alt="'.$item['title'] .'" title="'.$item['title'] .'"></a>
+                                </div>
+                                <div class="txt">
+                                    <h3><a '.gourl($item['linkurl'],'detail',$item['classid'],$item['id']).' target="_blank">'.$item['title'].'</a></h3>
+                                    <p>'.$item['stitle'].'</p>
+                                </div>
+                            </li>';
+                        $i++;
+                    }
+                }
 				?>
 	    	</ul>
 	    	<div class="m-bt wow fadeInUp" data-wow-duration="1s" data-wow-delay="2s">
@@ -255,51 +302,116 @@ $nid = 0;
     		<h3 class="g-tit1">新闻动态</h3>
     		<div class="index-news fix">
     			<?php
-				$dosql->Execute("SELECT id,classid,linkurl,title,picurl,description FROM `#@__infolist` WHERE classid=2 AND siteid = 1 AND find_in_set('c',flag) AND checkinfo=true AND delstate='' ORDER BY posttime DESC,orderid DESC limit 0,2");
-				while($lists = $dosql->GetArray())
-				{
-					echo 
-						'<div class="col">
-		    				<div class="m-newsBox">
-		    					<a '.gourl($lists['linkurl'],'content',$lists['classid'],$lists['id']).' target="_blank">
-		    						<div class="pic">
-		    							<img class="lazyimg" data-original="'.$lists['picurl'].'" title="'.$lists['title'].'" alt="'.$lists['title'].'">
-		    						</div>
-		    						<h3 class="tit">'.$lists['title'].'</h3>
-		    						<p>'.$lists['description'].'</p>
-		    					</a>
-		    				</div>
-		    			</div>';
-				}
+                $redisNews_1 = $redis::get('news_rec_1');
+                if(empty($redisNews_1)) {
+                    $dosql->Execute("SELECT id,classid,linkurl,title,picurl,description FROM `#@__infolist` WHERE classid=2 AND siteid = 1 AND find_in_set('c',flag) AND checkinfo=true AND delstate='' ORDER BY posttime DESC,orderid DESC limit 0,2");
+                    $i = 0;
+                    while ($row = $dosql->GetArray()) {
+                        echo
+                            '<div class="col">
+                                <div class="m-newsBox">
+                                    <a ' . gourl($row['linkurl'], 'content', $row['classid'], $row['id']) . ' target="_blank">
+                                        <div class="pic">
+                                            <img class="lazyimg" data-original="' . $row['picurl'] . '" title="' . $row['title'] . '" alt="' . $row['title'] . '">
+                                        </div>
+                                        <h3 class="tit">' . $row['title'] . '</h3>
+                                        <p>' . $row['description'] . '</p>
+                                    </a>
+                                </div>
+                            </div>';
+                        $rows[$i]['id'] = $row['id'];
+                        $rows[$i]['classid'] = $row['classid'];
+                        $rows[$i]['linkurl'] = $row['linkurl'];
+                        $rows[$i]['title'] = $row['title'];
+                        $rows[$i]['posttime'] = $row['posttime'];
+                        $rows[$i]['description'] = $row['description'];
+                        $i++;
+                    }
+                    $redisNews_1 = json_decode($rows);
+                    $redis::set('news_rec_1', $redisNews_1);
+                } else{
+                    $redisNews_1 = json_decode($redisNews_1,true);
+                    foreach ($redisNews_1 as $item){
+                        echo '<div class="col">
+                                <div class="m-newsBox">
+                                    <a ' . gourl($item['linkurl'], 'content', $item['classid'], $item['id']) . ' target="_blank">
+                                        <div class="pic">
+                                            <img class="lazyimg" data-original="' . $item['picurl'] . '" title="' . $item['title'] . '" alt="' . $item['title'] . '">
+                                        </div>
+                                        <h3 class="tit">' . $item['title'] . '</h3>
+                                        <p>' . $item['description'] . '</p>
+                                    </a>
+                                </div>
+                            </div>';
+                    }
+                }
 				?>
     			<div class="col">
 	    			<ul class="ul-list15">
 	    				<?php
-						$dosql->Execute("SELECT id,classid,linkurl,title,picurl,posttime,description FROM `#@__infolist` WHERE classid=2 AND siteid = 1 AND checkinfo=true AND delstate='' ORDER BY posttime DESC limit 0,5");
-						while($lists = $dosql->GetArray())
-						{
-							echo 
-								'<li>
-			    					<a '.gourl($lists['linkurl'],'content',$lists['classid'],$lists['id']).' target="_blank"><i></i>'.$lists['title'].'</a>
-			    					<span class="date">'.MyDate('Y-m-d', $lists['posttime']).'</span>
-			    				</li>';
-						}
+                        $redisNews_2 = $redis::get('news_rec_2');
+                        if(empty($redisNews_2)) {
+                            $dosql->Execute("SELECT id,classid,linkurl,title,posttime FROM `#@__infolist` WHERE classid=2 AND siteid = 1 AND checkinfo=true AND delstate='' ORDER BY posttime DESC limit 0,5");
+                            $i = 0;
+                            while ($row = $dosql->GetArray()) {
+                                echo
+                                    '<li>
+                                        <a ' . gourl($row['linkurl'], 'content', $row['classid'], $row['id']) . ' target="_blank" title="'. $row['title'] .'"><i></i>' . $row['title'] . '</a>
+                                        <span class="date">' . MyDate('Y-m-d', $row['posttime']) . '</span>
+                                    </li>';
+                                $rows[$i]['id'] = $row['id'];
+                                $rows[$i]['classid'] = $row['classid'];
+                                $rows[$i]['linkurl'] = $row['linkurl'];
+                                $rows[$i]['title'] = $row['title'];
+                                $rows[$i]['posttime'] = $row['posttime'];
+                                $i++;
+                            }
+                            $redisNews_2 = json_encode($rows);
+                            $redis::set('news_rec_2',$redisNews_2);
+                        } else{
+                            $redisNews_2 = json_decode($redisNews_2,true);
+                            foreach ($redisNews_2 as $item){
+                                echo '<li>
+                                        <a ' . gourl($item['linkurl'], 'content', $item['classid'], $item['id']) . ' target="_blank" title="'. $item['title'] .'"><i></i>' . $item['title'] . '</a>
+                                        <span class="date">' . MyDate('Y-m-d', $item['posttime']) . '</span>
+                                    </li>';
+                            }
+                        }
 						?>
 	    			</ul>
     			</div>
     			<div class="col">
 	    			<ul class="ul-list15">
 	    				<?php
-						$dosql->Execute("SELECT id,classid,linkurl,title,picurl,posttime,description FROM `#@__infolist` WHERE classid=2 AND siteid = 1 AND checkinfo=true AND delstate='' ORDER BY posttime DESC limit 6,5");
-						while($data = $dosql->GetArray())
-						{
-							echo 
-								'
-								<li>
-									<a '.gourl($data['linkurl'],'content',$data['classid'],$data['id']).' target="_blank"><i></i>'.$data['title'].'</a>
-									<span class="date">'.MyDate('Y-m-d', $data['posttime']).'</span>
-								</li>';
-						}
+                        $redisNews_3 = $redis::get('news_rec_3');
+                        if(empty($redisNews_3)) {
+                            $dosql->Execute("SELECT id,classid,linkurl,title,posttime FROM `#@__infolist` WHERE classid=2 AND siteid = 1 AND checkinfo=true AND delstate='' ORDER BY posttime DESC limit 6,5");
+                            $i = 0;
+                            while ($row = $dosql->GetArray()) {
+                                echo
+                                    '
+                                    <li>
+                                        <a ' . gourl($row['linkurl'], 'content', $row['classid'], $row['id']) . ' target="_blank" title="'. $row['title'] .'"><i></i>' . $row['title'] . '</a>
+                                        <span class="date">' . MyDate('Y-m-d', $row['posttime']) . '</span>
+                                    </li>';
+                                $rows[$i]['id'] = $row['id'];
+                                $rows[$i]['classid'] = $row['classid'];
+                                $rows[$i]['linkurl'] = $row['linkurl'];
+                                $rows[$i]['title'] = $row['title'];
+                                $rows[$i]['posttime'] = $row['posttime'];
+                                $i++;
+                            }
+                            $redisNews_3 = json_encode($rows);
+                            $redis::set('news_rec_3',$redisNews_3);
+                        } else{
+                            $redisNews_3 = json_decode($redisNews_3,true);
+                            foreach ($redisNews_3 as $item){
+                                echo '<li>
+                                        <a ' . gourl($item['linkurl'], 'content', $item['classid'], $item['id']) . ' target="_blank" title="'. $item['title'] .'"><i></i>' . $item['title'] . '</a>
+                                        <span class="date">' . MyDate('Y-m-d', $item['posttime']) . '</span>
+                                    </li>';
+                            }
+                        }
 						?>
 	    			</ul>
     			</div>
@@ -310,46 +422,46 @@ $nid = 0;
     	<div class="wp">
     		<div class="m-link">
     			<div class="item">
-    				<img src="images/img37.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img37.png" alt="指尖易推" title="指尖易推" />
     			</div>
     			<div class="item">
-    				<img src="images/img17.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img17.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img50.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img50.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img51.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img51.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img52.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img52.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img53.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img53.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img54.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img54.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img55.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img55.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img56.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img56.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img57.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img57.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img58.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img58.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img59.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img59.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img60.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img60.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     			<div class="item">
-    				<img src="images/img61.png" alt="武汉网页设计" title="武汉网页设计">
+    				<img src="images/img61.png" alt="上海网站建设|小程序开发" title="上海网站建设|小程序开发" />
     			</div>
     		</div>
     	</div>
@@ -375,12 +487,12 @@ $nid = 0;
 							<input type="text" name="u_name" id="u_name" placeholder="姓名" datatype="s2-8" nullmsg="请输入您的姓名" errormsg="用户名不能低于2-8个字符" /><i class="iconfont icon-xingming"></i>
 						</div>
 						<div class="inp">
-							<input type="text" name="m_obile" id="m_obile" placeholder="手机号" datatype="m" nullmsg="请输入手机号" errormsg="手机格式不正确" /><i class="iconfont icon-shouji"></i>
+							<input type="text" name="m_obile" id="m_obile" placeholder="手机" datatype="m" nullmsg="请输入手机号码" errormsg="手机格式不正确" /><i class="iconfont icon-shouji"></i>
 						</div>
 					</div>
 					<div class="con con2">
 						<i class="iconfont icon-duihuaqipao2"></i>
-						<textarea name="c_ontent" id="c_ontent" nullmsg="请输入留言内容" datatype="*2-120" errormsg="内容不能超过120个字符！" ></textarea>
+						<textarea name="c_ontent" id="c_ontent" nullmsg="请输入留言内容" placeholder="请输入您想咨询的内容" datatype="*2-120" errormsg="内容不能超过120个字符！" ></textarea>
 					</div>
 					<div id="error_tip" style="text-align:left;"></div> 
 					<input type="submit" class="sub" value="CONTACT US">
@@ -395,12 +507,12 @@ $nid = 0;
 						<li><a href="tencent://message/?uin=2271010218&Site=www.kaifazhe.site&Menu=yes" target="_blank"><i class="iconfont icon-icon363601"></i>加为腾讯QQ好友</a></li>
 						<li><a href="tel:15827236292"><i class="iconfont icon-lianxi-copy"></i>欢迎联系我们</a></li>
 					</ul>
-					<img src="images/logo2.png" alt="武汉网站开发公司" title="武汉网站开发公司" />
+					<img src="images/logo2.png" alt="上海网站开发公司" title="上海网站开发公司" />
 				</div>
 				<div class="con con2">
 					<h3 class="tit">技术支持</h3>
 					<p>如果您有项目上的疑问，可以随时咨询我们。</p>
-					<p>客服热线：<?php echo $cfg_hotline;?><br />技术支持：<a href="tel:15827236292"><b>林先生</b></a><br /><?php echo $cfg_copyright;?><br/><?php echo $cfg_icp;?></p>
+					<p>客服热线：<?php echo $cfg_hotline;?><br />技术支持：<a href="tel:15827236292"><b>林经理</b></a><br /><?php echo $cfg_copyright;?><br/><?php echo $cfg_icp;?></p>
 					<div class="email">
 						<input type="text" name="email" id="email" placeholder="输入您的邮件地址" />
 						<input type="button" class="btn" id="emailGo" value="GO">
@@ -449,13 +561,41 @@ $nid = 0;
             </div>
         </div>
 		<div class="m-link1">
+            <h3 class="tit">项目案例</h3>
+			<div class="pic">
+				<span>
+					<img src="images/shangzhan.png" alt="商栈名片王" title="商栈名片王" />
+				</span>
+            </div>
+			<div class="pic">
+				<span>
+					<img src="images/hepaijie.jpg" alt="合拍街摄影社区" title="合拍街摄影社区" />
+				</span>
+            </div>
+            <div class="pic">
+				<span>
+					<img src="images/huaruyun.png" alt="华如云" title="华如云" />
+				</span>
+            </div>
+			<div class="pic">
+				<span>
+					<img src="images/shiaya.jpg" alt="晒丫社区" title="晒丫社区" />
+				</span>
+            </div>
+			<div class="pic">
+				<span>
+					<img src="images/dajiwuhui.png" alt="大集舞会App" title="大集舞会App" />
+				</span>
+            </div>
+        </div>
+		<div class="m-link1">
 			<h3 class="tit">友情链接</h3>
 			<ul>
 				<?php
 				$dosql->Execute("SELECT webname,linkurl FROM `#@__weblink` WHERE classid=3 AND checkinfo=true ORDER BY posttime DESC,orderid DESC");
-				while($lists = $dosql->GetArray())
+				while($row = $dosql->GetArray())
 				{
-					echo '<li><a href="'.$lists['linkurl'].'" target="_blank">'.$lists['webname'].'</a></li>';
+					echo '<li><a href="'.$row['linkurl'].'" target="_blank">'.$row['webname'].'</a></li>';
 				}
 				?>
 				<li><a href="http://www.miitbeian.gov.cn" target="_blank"><?php echo $cfg_icp;?></a></li>

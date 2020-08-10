@@ -1,4 +1,0 @@
-INSERT INTO `sh_style` VALUES('1','z','中式','1');
-INSERT INTO `sh_style` VALUES('2','o','欧式','2');
-INSERT INTO `sh_style` VALUES('3','m','新美式','3');
-INSERT INTO `sh_style` VALUES('4','g','新古典','4');

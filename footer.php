@@ -19,12 +19,12 @@
 							<input type="text" name="u_name" id="u_name" placeholder="姓名" datatype="s2-8" nullmsg="请输入您的姓名" errormsg="用户名不能低于2-8个字符" /><i class="iconfont icon-xingming"></i>
 						</div>
 						<div class="inp">
-							<input type="text" name="m_obile" id="m_obile" placeholder="手机号" datatype="m" nullmsg="请输入手机号" errormsg="手机格式不正确" /><i class="iconfont icon-shouji"></i>
+							<input type="text" name="m_obile" id="m_obile" placeholder="手机" datatype="m" nullmsg="请输入手机号码" errormsg="手机格式不正确" /><i class="iconfont icon-shouji"></i>
 						</div>
 					</div>
 					<div class="con con2">
 						<i class="iconfont icon-duihuaqipao2"></i>
-						<textarea name="c_ontent" id="c_ontent" nullmsg="请输入留言内容" datatype="*2-120" errormsg="内容不能超过120个字符！" ></textarea>
+						<textarea name="c_ontent" id="c_ontent" nullmsg="请输入留言内容" placeholder="请输入您想咨询的内容" datatype="*2-120" errormsg="内容不能超过120个字符！" ></textarea>
 					</div>
 					<div id="error_tip" style="text-align:left;"></div> 
 					<input type="submit" class="sub" value="CONTACT US">

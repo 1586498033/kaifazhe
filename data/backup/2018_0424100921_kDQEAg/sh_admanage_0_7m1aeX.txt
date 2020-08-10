@@ -1,3 +1,0 @@
-INSERT INTO `sh_admanage` VALUES('73','3','29','0','0,','spirit','image','uploads/image/20170630/1498797415.jpg','','','','list-300-1.html','1','1498794977','true');
-INSERT INTO `sh_admanage` VALUES('74','3','29','0','0,','medicine','image','uploads/image/20170630/1498800508.jpg','','','','list-250-1.html','2','1498795081','true');
-INSERT INTO `sh_admanage` VALUES('75','3','29','0','0,','real estate','image','uploads/image/20170630/1498796365.jpg','','','','list-251-1.html','3','1498795118','true');

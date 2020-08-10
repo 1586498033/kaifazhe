@@ -1,2 +1,0 @@
-INSERT INTO `sh_admin` VALUES('1','Proclouds','480756f290e7c5c401f4bc9fc6418cc8','','0','','1','true','117.184.168.62','1521774042');
-INSERT INTO `sh_admin` VALUES('2','Gaoyuan','97cc3c58755d7f4ca8c3880f42180086','','0','','1','true','127.0.0.1','1501171142');

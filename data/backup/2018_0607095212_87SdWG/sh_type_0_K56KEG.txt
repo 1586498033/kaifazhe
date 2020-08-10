@@ -1,3 +1,0 @@
-INSERT INTO `sh_type` VALUES('1','手机应用开发','mobile','1');
-INSERT INTO `sh_type` VALUES('2','微信平台开发','weixin','2');
-INSERT INTO `sh_type` VALUES('3','自适应网站','h5','3');

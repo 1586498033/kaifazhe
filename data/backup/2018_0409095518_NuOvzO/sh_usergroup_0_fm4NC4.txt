@@ -1,7 +1,0 @@
-INSERT INTO `sh_usergroup` VALUES('1','禁止访问','-99999','0','0','');
-INSERT INTO `sh_usergroup` VALUES('2','普通会员','1','50','1','');
-INSERT INTO `sh_usergroup` VALUES('3','F1级','51','200','4','');
-INSERT INTO `sh_usergroup` VALUES('4','F2级','201','500','8','');
-INSERT INTO `sh_usergroup` VALUES('5','F3级','501','1000','12','');
-INSERT INTO `sh_usergroup` VALUES('6','F4级','1001','3000','16','');
-INSERT INTO `sh_usergroup` VALUES('7','F5级','0','0','0','');

@@ -1,2 +1,0 @@
-INSERT INTO `sh_site` VALUES('1','中文版','zh_CN');
-INSERT INTO `sh_site` VALUES('3','英文站','en_US');

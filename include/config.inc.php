@@ -5,6 +5,7 @@ require_once(PHPMYWIND_INC.'/func.class.php');
 
 require_once(PHPMYWIND_INC.'/page.class.php');
 require_once(PHPMYWIND_INC.'/month.class.php');
+require_once(PHPMYWIND_INC.'/RedisPackage.class.php');
 
 if(!defined('IN_PHPMYWIND')) exit('Request Error!');
 

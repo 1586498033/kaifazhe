@@ -45,7 +45,7 @@ if(@$row)
 	$orderid=$row['orderid'];
 }else{
 	$error="文章不存在...";
-	include "error.php" ;
+	include "404.php" ;
 	exit;
 }
 ?>
@@ -125,42 +125,7 @@ if(@$row)
 		    		</div>
 				</div>
 			</div>
-			<div class="col-r">
-				<div class="g-box2">
-					<h3 class="g-tit2 g-tit2-2">相关新闻</h3>
-					<ul class="ul-news">
-						<!-- 读取推荐新闻 -->
-						<?php 
-						$dopage->GetPage("SELECT id,classid,linkurl,title,posttime,description FROM `#@__infolist` WHERE classid=".$cid." AND checkinfo=true AND delstate='' AND FIND_IN_SET('c',flag) ORDER BY posttime DESC",5); 
-						while($row=$dosql->GetArray()){ 
-						?>
-							<li><a <?php echo gourl($row['linkurl'],'content',$row['classid'],$row['id']);?> title="<?php echo $row['title'];?>"><?php echo $row['title'];?></a></li>
-						<?php } ?>
-					</ul>
-					<h3 class="g-tit2 g-tit2-2">标签</h3>
-					<ul class="ul-tags">
-						<li><a href="http://www.proclouds.cn/seo" target="_blank">seo</a></li>
-						<li><a href="http://www.proclouds.cn/list-2-1.html" target="_blank">新闻</a></li>
-						<li><a href="http://www.proclouds.cn/list-1-1.html" target="_blank">网站建设</a></li>
-						<li><a href="http://www.proclouds.cn/live" target="_blank">直播</a></li>
-						<li><a href="http://www.procloud.cn/" target="_blank">app</a></li>
-						<li><a href="http://www.procloud.cn/p2p" target="_blank">p2p</a></li>
-					</ul>
-					<h3 class="g-tit2 g-tit2-2">最新动态</h3>
-					<ul class="ul-dynamic">
-						<?php 
-						$dopage->GetPage("SELECT id,classid,linkurl,title,posttime,description FROM `#@__infolist` WHERE classid=".$cid." AND checkinfo=true AND delstate='' AND FIND_IN_SET('n',flag) ORDER BY posttime DESC",2); 
-						while($row=$dosql->GetArray()){ 
-						?>
-						<li>
-							<a <?php echo gourl($row['linkurl'],'content',$row['classid'],$row['id']);?> title="<?php echo $row['title'];?>"><?php echo $row['title'];?></a>
-							<p><?php echo $row['description'];?></p>
-							<span class="date"><?php echo date('Y年m月d日', $row['posttime']);?></span>
-						</li>
-						<?php } ?>
-					</ul>
-				</div>
-			</div>
+            <?php include 'right.php';?>
 		</div>
 	</div>
     <?php include 'footer.php';?>

@@ -1,4 +1,0 @@
-INSERT INTO `sh_procloud` VALUES('1','app','http://proclouds.cn/app','1','1509008248','1511334579');
-INSERT INTO `sh_procloud` VALUES('2','直播','http://proclouds.cn/live','2','1509008392','1511334579');
-INSERT INTO `sh_procloud` VALUES('3','工程','http://proclouds.cn/gc','3','1509008412','1511334579');
-INSERT INTO `sh_procloud` VALUES('4','IT','http://proclouds.cn/ito','4','1509008434','1511334579');

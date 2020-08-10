@@ -1,0 +1,14 @@
+.idea
+*.log
+*_bak.php
+*_bak.html
+.DS_Store
+*.bak
+Thumbs.db
+runtime/*
+uploads
+data/backup
+fonts
+images
+js
+css

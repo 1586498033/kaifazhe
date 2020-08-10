@@ -2,7 +2,7 @@
 <div class="g-box">
 	<div class="wp ovh">
 		<h3 class="g-tit1">网站设计及开发</h3>
-		<p class="m-info">Procloud网络是领先的企业级网站构建者，从策划、IA信息架构设计、视觉创意设计到前后台技术开发，拥有过百人网站建设专业团队。 Procloud网络一直贯彻"智慧沟通，高效执行"的管理服务理念，只为更好的提供网站建设解决方案。</p>
+		<p class="m-info">路同软件是领先的企业级网站构建者，从策划、IA信息架构设计、视觉创意设计到前后台技术开发，拥有过百人网站建设专业团队。 路同软件一直贯彻"智慧沟通，高效执行"的管理服务理念，只为更好的提供网站建设解决方案。</p>
 
 		<ul class="list ul-list1">
 			<li class="wow fadeInUp" data-wow-duration="1s">
@@ -110,18 +110,23 @@
 		<h3 class="g-tit1">我们的成功案例</h3>
 		<ul class="list ul-list4">
 			<?php
-			$dosql->Execute("SELECT id,classid,title,stitle,linkurl,case_img FROM `#@__infoimg` WHERE classid=233 AND siteid = 1 AND checkinfo=true AND delstate='' ORDER BY posttime DESC,orderid DESC limit 0,12");
+			$dosql->Execute("SELECT id,classid,title,stitle,linkurl,case_img,tag FROM `#@__infoimg` WHERE classid=233 AND siteid = 1 AND find_in_set('c',flag) AND checkinfo=true AND delstate='' ORDER BY posttime DESC,orderid DESC limit 0,12");
 			$i = 1;
-			while($lists = $dosql->GetArray())
+			while($row = $dosql->GetArray())
 			{
-				echo '
+                $tagArr = explode(',',$row['tag']);
+                foreach($tagArr as $k=>$v){
+                    $tagArr[$k] = getTag($v);
+                }
+                $tags = implode('&nbsp;', $tagArr);
+			    echo '
 					<li class="wow fadeInUp" data-wow-duration="1s" data-wow-delay="'.($i*0.3).'s">
 						<div class="pic">
-							<a '.gourl($lists['linkurl'],'detail',$lists['classid'],$lists['id']).' target="_blank"><img class="lazyimg" data-original="'.$lists['case_img'].'" alt="武汉网页设计" title="武汉网页设计"></a>
+							<a '.gourl($row['linkurl'],'detail',$row['classid'],$row['id']).' target="_blank"><img class="lazyimg" data-original="'.$row['case_img'].'" alt="上海网站建设" title="上海网站建设"></a>
 						</div>
 						<div class="txt">
-							<h3><a '.gourl($lists['linkurl'],'detail',$lists['classid'],$lists['id']).' target="_blank">'.$lists['title'].'</a></h3>
-							<p>'.$lists['stitle'].'</p>
+							<h3><a '.gourl($row['linkurl'],'detail',$row['classid'],$row['id']).' target="_blank">'.$row['title'].'</a></h3>
+							<p>'.$tags.'</p>
 						</div>
 					</li>';
 				$i++;
@@ -184,8 +189,9 @@
 				<p>每日需求梳理沟通 </p>
 				<p>每周项目进度汇报</p>
 				<p>电子邮件</p>
-				<p >QQ讨论组</p>
+				<p>QQ讨论组</p>
 				<p>微信讨论组</p>
+                <p>钉钉协同办公</p>
 				<p>公司座机电话</p>
 			</li>
 		</ul>
@@ -395,7 +401,7 @@
 		<h3 class="g-tit1">我们的成功案例</h3>
 		<div class="m-intro2">
 			<div class="txt">
-				<h3>ProCloud 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
+				<h3>路同软件 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
 				<p>选择可靠的技术提供商是迈入互联网的第一步</p>
 			</div>
 			<a href="list-232-1.html" class="g-btn1 g-btn1-1 more"><i class="iconfont icon-tubiaozhizuomoban1"></i>全部案例</a>
@@ -672,7 +678,7 @@
 		</ul>
 		<div class="m-intro2">
 			<div class="txt">
-				<h3>ProCloud 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
+				<h3>路同软件 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
 				<p>选择可靠的技术提供商是迈入互联网的第一步</p>
 			</div>
 			<a href="" class="g-btn1 g-btn1-1 more"><i class="iconfont icon-tubiaozhizuomoban1"></i>全部案例</a>
@@ -902,7 +908,7 @@
 		</ul>
 		<div class="m-intro2">
 			<div class="txt">
-				<h3>ProCloud 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
+				<h3>路同软件已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
 				<p>选择可靠的技术提供商是迈入互联网的第一步</p>
 			</div>
 			<a href="list-232-1.html" class="g-btn1 g-btn1-1 more"><i class="iconfont icon-tubiaozhizuomoban1"></i>全部案例</a>
@@ -1167,7 +1173,7 @@
 		</ul>
 		<div class="m-intro2">
 			<div class="txt">
-				<h3>ProCloud 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
+				<h3>路同软件 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
 				<p>选择可靠的技术提供商是迈入互联网的第一步</p>
 			</div>
 			<a href="list-232-1.html" class="g-btn1 g-btn1-1 more"><i class="iconfont icon-tubiaozhizuomoban1"></i>全部案例</a>
@@ -1407,7 +1413,7 @@
 		</ul>
 		<div class="m-intro2">
 			<div class="txt">
-				<h3>ProCloud 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
+				<h3>路同软件 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
 				<p>选择可靠的技术提供商是迈入互联网的第一步</p>
 			</div>
 			<a href="list-232-1.html" class="g-btn1 g-btn1-1 more"><i class="iconfont icon-tubiaozhizuomoban1"></i>全部案例</a>
@@ -1571,7 +1577,7 @@
 		<h3 class="g-tit1">我们的成功案例</h3>
 		<div class="m-intro2">
 			<div class="txt">
-				<h3>ProCloud 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
+				<h3>路同软件 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
 				<p>选择可靠的技术提供商是迈入互联网的第一步</p>
 			</div>
 			<a href="" class="g-btn1 g-btn1-1 more"><i class="iconfont icon-tubiaozhizuomoban1"></i>全部案例</a>
@@ -1736,7 +1742,7 @@
 		</ul>
 		<div class="m-intro2">
 			<div class="txt">
-				<h3>ProCloud 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
+				<h3>路同软件 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
 				<p>选择可靠的技术提供商是迈入互联网的第一步</p>
 			</div>
 			<a href="list-234-1.html" class="g-btn1 g-btn1-1 more"><i class="iconfont icon-tubiaozhizuomoban1"></i>全部案例</a>
@@ -2312,7 +2318,7 @@
 		<h3 class="g-tit1">我们的成功案例</h3>
 		<div class="m-intro2">
 			<div class="txt">
-				<h3>ProCloud 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
+				<h3>路同软件 已经为超过3000个企业或个人提供互联网建站、手机应用开发服务</h3>
 				<p>选择可靠的技术提供商是迈入互联网的第一步</p>
 			</div>
 			<a href="list-232-1.html" class="g-btn1 g-btn1-1 more"><i class="iconfont icon-tubiaozhizuomoban1"></i>全部案例</a>
@@ -2363,11 +2369,13 @@
 	</div>
 </div>
 <?php 
-	}else if($cid == 294){	//关于我们
+	} else if($cid == 294){	//关于我们
 		include 'about.php';
-	}else if($cid == 239){	//联系我们
+	} else if($cid == 239){	//联系我们
 		include 'contact.php';
-	}else if($cid == 332){	//常见问题
+	} else if($cid == 332){	//常见问题
 		include 'faqs.php';
-	}else{?> 
+	} else if($cid == 333){	//解决方案
+		include 'solution.php';
+	} else{?> 
 <?php }?>	

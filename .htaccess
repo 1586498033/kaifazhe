@@ -2,10 +2,11 @@ ErrorDocument 404 /404.php
 <IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^procloudwh.com [NC]
-RewriteRule ^(.*)$ http://www.procloudwh.com/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.kaifazhe.site/$1 [L,R=301]
 RewriteRule ^index.html$ index.php
 RewriteRule ^list-([0-9]+)-([0-9]+)\.html$ list.php?cid=$1&page=$2
 RewriteRule ^content-([0-9]+)-([0-9]+)-([0-9]+)\.html$ content.php?cid=$1&id=$2&page=$3
 RewriteRule ^detail-([0-9]+)-([0-9]+)-([0-9]+)\.html$ detail.php?cid=$1&id=$2&page=$3
+RewriteRule ^solutionDetail-([0-9]+)-([0-9]+)-([0-9]+)\.html$ solutionDetail.php?cid=$1&id=$2&page=$3
 RewriteRule ^(\w+)\.html$ $1.php?
 </IfModule>
